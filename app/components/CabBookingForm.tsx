@@ -106,6 +106,104 @@ export default function CabBookingForm() {
     }
   }, [])
 
+  // Add custom styles for Google autocomplete dropdown
+  useEffect(() => {
+    // Add custom styles for Google Places Autocomplete dropdown
+    const customStyles = document.createElement('style');
+    customStyles.textContent = `
+      /* Main dropdown container */
+      .pac-container {
+        border-radius: 8px;
+        margin-top: 4px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        background-color: rgba(30, 41, 59, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 8px;
+        z-index: 10000;
+      }
+      
+      /* Each suggestion item */
+      .pac-item {
+        padding: 8px 10px;
+        cursor: pointer;
+        border-top: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 14px;
+        transition: all 0.2s ease;
+      }
+      
+      /* Hover effect on items */
+      .pac-item:hover {
+        background-color: rgba(20, 184, 166, 0.6);
+        color: white;
+      }
+      
+      /* Selected item */
+      .pac-item-selected {
+        background-color: rgba(20, 184, 166, 0.8);
+        color: white;
+      }
+      
+      /* Main text in the suggestion */
+      .pac-item-query {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        font-weight: 500;
+        padding-right: 3px;
+      }
+      
+      /* Matched text highlighting */
+      .pac-matched {
+        color: #16a34a;
+        font-weight: 600;
+      }
+      
+      /* Secondary text/location info */
+      .pac-secondary-text {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 12px;
+      }
+      
+      /* Google logo/branding */
+      .pac-logo:after {
+        background-color: rgba(30, 41, 59, 0.95);
+        padding: 4px 8px;
+        height: 28px;
+        opacity: 0.4;
+        filter: grayscale(0.8);
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Make Google attribution almost invisible but still technically present */
+      .pac-container:not(:hover) .pac-logo:after {
+        opacity: 0.2;
+      }
+      
+      /* When container is hovered, make attribution slightly more visible */
+      .pac-container:hover .pac-logo:after {
+        opacity: 0.4;
+      }
+      
+      /* Add a custom icon for location items */
+      .pac-icon {
+        display: none;
+      }
+      
+      .pac-item:before {
+        content: "📍";
+        margin-right: 10px;
+      }
+    `;
+    document.head.appendChild(customStyles);
+
+    // Clean up function to remove styles when component unmounts
+    return () => {
+      document.head.removeChild(customStyles);
+    };
+  }, []);
+
   // If you still want to fetch time slots from your backend
   const fetchTimeSlots = async (date: string) => {
     setIsLoadingTimeSlots(true)

@@ -499,7 +499,25 @@ export default function SearchResults() {
                         distance: distance?.toString() || '0',
                         days: days.toString()
                       })
-                      window.location.href = `/booking?${params.toString()}`
+                      
+                      // Store in localStorage for invoice page to retrieve
+                      localStorage.setItem('bookingData', JSON.stringify({
+                        name: car.name,
+                        image: car.image,
+                        price: car.totalPrice,
+                        features: car.features,
+                        category: car.category,
+                        pickupLocation: searchParams.get('pickup') || '',
+                        dropLocation: searchParams.get('drop') || '',
+                        date: searchParams.get('date') || '',
+                        returnDate: searchParams.get('returnDate') || '',
+                        time: searchParams.get('time') || '',
+                        tripType: searchParams.get('tripType') || 'oneWay',
+                        distance: distance?.toString() || '0',
+                        days: days.toString()
+                      }))
+                      
+                      window.location.href = `/booking/invoice?${params.toString()}`
                     }}
                     className="bg-[#1a1f2e] text-white px-6 py-2 rounded hover:bg-[#1a1f2e]/90"
                   >
