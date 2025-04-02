@@ -1,8 +1,8 @@
 "use client"
 import { useState, useEffect } from "react"
-import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useSearchParams } from 'next/navigation'
+import Navbar2 from "../components/Navbar2"
 
 export default function SearchResults() {
   // Set to true to enable detailed debug console logs
@@ -396,7 +396,7 @@ export default function SearchResults() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <Header />
+      <Navbar2 />
       
       <div className="container mx-auto px-4 py-8">
         {/* Remove or comment out the Trip Details section */}
