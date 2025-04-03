@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './login.module.css';
+import Cookies from 'js-cookie';
 
 interface LoginResponse {
   success: boolean;
@@ -17,13 +18,14 @@ interface LoginResponse {
 }
 
 export default function LoginPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [mobileNo, setMobileNo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ export default function LoginPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          mobileNo,  // This will be transformed to 'mobile' in the API route
+          mobileNo,
           password 
         }),
       });
@@ -56,38 +58,34 @@ export default function LoginPage() {
       }
       
       if (response.ok && data.success) {
-        // Store user info in localStorage
+        // Store user info in cookies with secure flags
         if (data.username) {
-          localStorage.setItem('username', data.username);
-          console.log('Debug - Saved username to localStorage:', data.username);
+          Cookies.set('username', data.username, { secure: true, sameSite: 'strict' });
         }
         if (data.role) {
-          // Normalize role to uppercase
           const role = data.role.toUpperCase();
-          localStorage.setItem('userRole', role);
-          console.log('Debug - Saved role to localStorage:', role);
+          Cookies.set('userRole', role, { secure: true, sameSite: 'strict' });
         }
         if (data.token) {
-          localStorage.setItem('token', data.token);
-          console.log('Debug - Saved token to localStorage:', data.token);
+          Cookies.set('token', data.token, { secure: true, sameSite: 'strict' });
         }
         
-        // Also store mobile number for profile display
-        localStorage.setItem('mobileNo', mobileNo);
+        // Store mobile number
+        Cookies.set('mobileNo', mobileNo, { secure: true, sameSite: 'strict' });
         
-        // Store any additional user data if available
+        // Store additional user data
         if (data.email) {
-          localStorage.setItem('email', data.email);
+          Cookies.set('email', data.email, { secure: true, sameSite: 'strict' });
         }
         if (data.address) {
-          localStorage.setItem('address', data.address);
+          Cookies.set('address', data.address, { secure: true, sameSite: 'strict' });
         }
         if (data.userId) {
-          localStorage.setItem('userId', data.userId);
+          Cookies.set('userId', data.userId, { secure: true, sameSite: 'strict' });
         }
         
-        // Store all user data in a consolidated object for easy access
-        localStorage.setItem('user', JSON.stringify({
+        // Store consolidated user data
+        const userData = {
           username: data.username || '',
           email: data.email || '',
           mobileNo: mobileNo,
@@ -95,41 +93,36 @@ export default function LoginPage() {
           address: data.address || '',
           userId: data.userId || '',
           isLoggedIn: true
-        }));
-        
-        console.log('Debug - All localStorage items after login:', {
-          username: localStorage.getItem('username'),
-          role: localStorage.getItem('userRole'),
-          token: localStorage.getItem('token'),
-          mobileNo: localStorage.getItem('mobileNo')
-        });
+        };
+        Cookies.set('user', JSON.stringify(userData), { secure: true, sameSite: 'strict' });
 
         setSuccessMessage('Login successful! Redirecting...');
         setShowSuccessMessage(true);
         
-        // Redirect to appropriate page based on role
+        // Get redirect URL from query parameters or use default based on role
+        const redirectTo = searchParams.get('redirect');
         setTimeout(() => {
-          const role = localStorage.getItem('userRole');
-          console.log('Redirecting based on role:', role);
-          
-          if (role === 'ADMIN') {
-            router.push('/admin/dashboard');
-          } else if (role === 'VENDOR') {
-            router.push('/vendor/dashboard');
+          if (redirectTo) {
+            router.push(redirectTo);
           } else {
-            // Default to home page for regular users
-            router.push('/');
+            const role = data.role.toUpperCase();
+            if (role === 'ADMIN') {
+              router.push('/admin/dashboard');
+            } else if (role === 'VENDOR') {
+              router.push('/vendor/dashboard');
+            } else {
+              router.push('/');
+            }
           }
         }, 2000);
       } else {
-        // Clear password field on error
         setPassword('');
         console.error('Login failed:', data.message);
         setError(data.message || 'Login failed. Please check your credentials and try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
-      setPassword(''); // Clear password field
+      setPassword('');
       setError('An error occurred during login. Please try again.');
     } finally {
       setIsLoading(false);
@@ -153,16 +146,16 @@ export default function LoginPage() {
     
     // Check if coming from successful registration
     if (typeof window !== 'undefined') {
-      const registrationSuccess = localStorage.getItem('registrationSuccess');
-      const registrationMessage = localStorage.getItem('registrationMessage');
+      const registrationSuccess = Cookies.get('registrationSuccess');
+      const registrationMessage = Cookies.get('registrationMessage');
       
       if (registrationSuccess === 'true') {
         setShowSuccessMessage(true);
         setSuccessMessage(registrationMessage || 'Registration successful! Please log in.');
         
         // Clear the registration success flags
-        localStorage.removeItem('registrationSuccess');
-        localStorage.removeItem('registrationMessage');
+        Cookies.remove('registrationSuccess');
+        Cookies.remove('registrationMessage');
       }
     }
   }, []);
@@ -264,7 +257,7 @@ export default function LoginPage() {
           </button>
 
           <p className={styles['sign-in-text']} style={{ marginTop: '20px' }}>
-            <Link href="/" className={styles['link-info']}>Forgot password?</Link>
+            <Link href="/forgot-password" className={styles['link-info']}>Forgot password?</Link>
           </p>
         </form>
       </div>

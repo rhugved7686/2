@@ -48,193 +48,113 @@ const Navbar2 = () => {
         setUser(parsedUser);
         console.log('Loaded user data from localStorage:', parsedUser);
       } catch (e) {
-        console.error('Error parsing user data', e);
-        
-        // Fallback to individual items
+        console.error('Error parsing user data from localStorage:', e);
+        // If parsing fails, try loading from individual items
         loadUserFromIndividualItems();
       }
     } else {
-      // If no 'user' object, try individual fields
+      // If no 'user' item, try loading from individual items
       loadUserFromIndividualItems();
     }
   };
-
-  // Effect to refresh user data when profile modal is opened
-  useEffect(() => {
-    if (showProfileModal && typeof window !== 'undefined') {
-      // Always get the latest data from localStorage when opening the modal
-      const email = localStorage.getItem('email');
-      const address = localStorage.getItem('address');
-      
-      // Update user data with the latest values
-      setUser(prevUser => {
-        if (!prevUser) return null;
-        
-        const hasEmail = email !== null && email !== '';
-        const hasAddress = address !== null && address !== '';
-        
-        console.log('Email in localStorage when opening modal:', email);
-        console.log('Address in localStorage when opening modal:', address);
-        
-        const updatedUser = {
-          ...prevUser,
-          email: hasEmail ? email : undefined,
-          address: hasAddress ? address : undefined
-        };
-        
-        // Update the consolidated data in localStorage too
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-        
-        return updatedUser;
-      });
-    }
-  }, [showProfileModal]);
-
+  
   // Function to load user data from individual localStorage items
   const loadUserFromIndividualItems = () => {
     const username = localStorage.getItem('username');
-    const userId = localStorage.getItem('userId');
-    const token = localStorage.getItem('token');
     const userRole = localStorage.getItem('userRole');
     const email = localStorage.getItem('email');
-    const mobileNo = localStorage.getItem('mobileNo');
     const address = localStorage.getItem('address');
     
-    if (username) {
-      // Log all available user data for debugging
-      console.log('User data from localStorage:', {
-        username,
-        userId,
-        userRole,
-        email,
-        mobileNo,
-        address
-      });
-      
-      // Check if email and address are available but empty strings
-      const hasEmail = email !== null && email !== '';
-      const hasAddress = address !== null && address !== '';
-      
-      console.log('Email status:', hasEmail ? 'Available' : 'Not available', email);
-      console.log('Address status:', hasAddress ? 'Available' : 'Not available', address);
-      
-      const userData = {
-        username: username,
-        isLoggedIn: true,
-        userId: userId || undefined,
+    if (username || userRole) {
+      const userData: UserData = {
+        username: username || undefined,
+        isLoggedIn: !!username,
         role: userRole || undefined,
-        email: hasEmail ? email : undefined,
-        mobileNo: mobileNo || undefined,
-        address: hasAddress ? address : undefined
-      };
-      
-      setUser(userData);
-      
-      // Also update the 'user' object in localStorage for future use
-      localStorage.setItem('user', JSON.stringify(userData));
-      console.log('Created and saved consolidated user data:', userData);
-    } else {
-      setUser(null);
-    }
-  };
-
-  const handleLogoutClick = () => {
-    setShowLogoutConfirmation(true);
-    if (showProfileModal) {
-      setShowProfileModal(false);
-    }
-  };
-
-  const handleLogoutCancel = () => {
-    setShowLogoutConfirmation(false);
-  };
-
-  const handleLogout = () => {
-    // Clear ALL user data from localStorage
-    localStorage.removeItem('user');
-    localStorage.removeItem('username');
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('email');
-    localStorage.removeItem('mobileNo');
-    localStorage.removeItem('address');
-    
-    // Update state to reflect logout
-    setUser(null);
-    setShowProfileModal(false);
-    setShowLogoutConfirmation(false);
-    
-    // Show success toast
-    setShowLogoutSuccess(true);
-    
-    // Hide the success toast after 3 seconds and redirect
-    setTimeout(() => {
-      setShowLogoutSuccess(false);
-      // Redirect to home page
-      window.location.href = '/';
-    }, 3000);
-  };
-
-  // Function to handle profile edit
-  const startEditProfile = () => {
-    setEditedUser({...user});
-    setIsEditMode(true);
-  };
-
-  // Function to save edited profile
-  const saveProfile = () => {
-    if (editedUser) {
-      // Update user state
-      setUser(editedUser);
-      
-      // Ensure email and address are not empty strings
-      const email = editedUser.email || '';
-      const address = editedUser.address || '';
-      
-      console.log('Saving profile with email:', email);
-      console.log('Saving profile with address:', address);
-      
-      // Update localStorage
-      localStorage.setItem('username', editedUser.username || '');
-      localStorage.setItem('email', email);
-      localStorage.setItem('mobileNo', editedUser.mobileNo || '');
-      localStorage.setItem('address', address);
-      
-      // Update the consolidated user object
-      const updatedUserData = {
-        ...editedUser,
-        isLoggedIn: true,
         email: email || undefined,
         address: address || undefined
       };
-      
-      localStorage.setItem('user', JSON.stringify(updatedUserData));
-      console.log('Updated user data in localStorage:', updatedUserData);
-      
-      setIsEditMode(false);
-      
-      // Show confirmation
-      alert('Profile updated successfully! Your changes are now saved.');
-      
-      // Force a reload of the user data to ensure it's displayed correctly
-      setTimeout(() => {
-        loadUserData();
-      }, 100);
+      setUser(userData);
+      console.log('Loaded user data from individual localStorage items:', userData);
     }
   };
-
-  // Handle input change in edit mode
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setEditedUser(prev => prev ? { ...prev, [name]: value } : null);
+  
+  // Function to handle logout
+  const handleLogout = () => {
+    // Clear all user data from localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('address');
+    
+    // Update state
+    setUser(null);
+    setShowLogoutConfirmation(false);
+    setShowLogoutSuccess(true);
+    
+    // Redirect to home page after a short delay
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 1500);
   };
+  
+  // Function to handle profile edit
+  const handleProfileEdit = () => {
+    if (user) {
+      setEditedUser({ ...user });
+      setIsEditMode(true);
+    }
+  };
+  
+  // Function to handle profile save
+  const handleProfileSave = () => {
+    if (editedUser) {
+      // Update localStorage
+      localStorage.setItem('user', JSON.stringify(editedUser));
+      localStorage.setItem('email', editedUser.email || '');
+      localStorage.setItem('address', editedUser.address || '');
+      
+      // Update state
+      setUser(editedUser);
+      setIsEditMode(false);
+    }
+  };
+  
+  // Function to handle profile cancel
+  const handleProfileCancel = () => {
+    setIsEditMode(false);
+    setEditedUser(null);
+  };
+  
+  // Function to handle profile modal close
+  const handleProfileModalClose = () => {
+    setShowProfileModal(false);
+    setIsEditMode(false);
+    setEditedUser(null);
+  };
+  
+  // Refresh user data when profile modal is opened
+  useEffect(() => {
+    if (showProfileModal) {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        try {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+        } catch (e) {
+          console.error('Error parsing user data from localStorage:', e);
+        }
+      }
+    }
+  }, [showProfileModal]);
 
   // Navigation items - dynamic based on login status
   const navItems = [
     ...(user?.isLoggedIn || user?.username 
-      ? [{ name: 'Logout', action: handleLogoutClick }] 
+      ? [{ name: 'Logout', action: () => setShowLogoutConfirmation(true) }] 
       : [{ name: 'Login', href: '/login' }]),
+    { name: 'My Trip', href: '/my-trip' },
     { name: 'About', href: '/about' },
     { name: 'Service', href: '/service' },
     { name: 'Contact', href: '/contact' },
@@ -245,9 +165,7 @@ const Navbar2 = () => {
     if (!showProfileModal) return null;
     
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={() => {
-        if (!isEditMode) setShowProfileModal(false);
-      }}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={handleProfileModalClose}>
         {/* Backdrop */}
         <div 
           className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-in-out"
@@ -274,7 +192,7 @@ const Navbar2 = () => {
             
             {!isEditMode && (
               <button 
-                onClick={startEditProfile}
+                onClick={handleProfileEdit}
                 className="absolute top-4 right-4 p-2 rounded-full hover:bg-white/20 transition-colors"
                 title="Edit Profile"
               >
@@ -296,7 +214,7 @@ const Navbar2 = () => {
                     type="text"
                     name="username"
                     value={editedUser?.username || ''}
-                    onChange={handleInputChange}
+                    onChange={(e) => setEditedUser(prev => ({ ...prev, username: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your username"
                   />
@@ -308,7 +226,7 @@ const Navbar2 = () => {
                     type="text"
                     name="mobileNo"
                     value={editedUser?.mobileNo || ''}
-                    onChange={handleInputChange}
+                    onChange={(e) => setEditedUser(prev => ({ ...prev, mobileNo: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your mobile number"
                   />
@@ -320,7 +238,7 @@ const Navbar2 = () => {
                     type="email"
                     name="email"
                     value={editedUser?.email || ''}
-                    onChange={handleInputChange}
+                    onChange={(e) => setEditedUser(prev => ({ ...prev, email: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your email"
                   />
@@ -332,7 +250,7 @@ const Navbar2 = () => {
                     type="text"
                     name="address"
                     value={editedUser?.address || ''}
-                    onChange={handleInputChange}
+                    onChange={(e) => setEditedUser(prev => ({ ...prev, address: e.target.value }))}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter your address"
                   />
@@ -370,7 +288,7 @@ const Navbar2 = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={startEditProfile}>
+                <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={handleProfileEdit}>
                   <div className="text-blue-600 mt-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
@@ -393,7 +311,7 @@ const Navbar2 = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={startEditProfile}>
+                <div className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer" onClick={handleProfileEdit}>
                   <div className="text-blue-600 mt-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
@@ -434,13 +352,13 @@ const Navbar2 = () => {
               {isEditMode ? (
                 <>
                   <button
-                    onClick={() => setIsEditMode(false)}
+                    onClick={handleProfileCancel}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
-                    onClick={saveProfile}
+                    onClick={handleProfileSave}
                     className="flex-1 px-4 py-2 bg-blue-600 rounded-md text-white font-medium hover:bg-blue-700 transition-colors"
                   >
                     Save Changes
@@ -449,7 +367,7 @@ const Navbar2 = () => {
               ) : (
                 <>
                   <button
-                    onClick={() => setShowProfileModal(false)}
+                    onClick={handleProfileModalClose}
                     className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors"
                   >
                     Close
@@ -474,7 +392,7 @@ const Navbar2 = () => {
     if (!showLogoutConfirmation) return null;
     
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={handleLogoutCancel}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center" onClick={() => setShowLogoutConfirmation(false)}>
         {/* Backdrop */}
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ease-in-out"></div>
         
@@ -501,7 +419,7 @@ const Navbar2 = () => {
             
             <div className="flex space-x-3">
               <button
-                onClick={handleLogoutCancel}
+                onClick={() => setShowLogoutConfirmation(false)}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-gray-700 font-medium hover:bg-gray-50 transition-colors"
               >
                 Cancel
