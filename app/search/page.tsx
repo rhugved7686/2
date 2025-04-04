@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import Footer from "@/components/footer"
 import { useSearchParams } from 'next/navigation'
-import Navbar2 from "../components/Navbar2"
+import Navbar2 from "../../components/Navbar2"
 
 export default function SearchResults() {
   // Set to true to enable detailed debug console logs

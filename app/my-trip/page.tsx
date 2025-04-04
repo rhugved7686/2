@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import Navbar2 from '@/app/components/Navbar2';
+import Navbar2 from '@/components/Navbar2';
 import Footer from '@/components/footer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCar, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaRupeeSign } from 'react-icons/fa';

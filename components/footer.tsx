@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 import { useState } from "react"
 
@@ -17,15 +19,24 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-gray-100">
-      <div className="bg-black py-2">{/* Black bar at the top of the footer */}</div>
+    <footer className="bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+      <div className="bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600 py-3 shadow-lg">
+        <div className="container mx-auto px-4 text-center text-sm font-medium text-white">
+          <span className="inline-flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+            </svg>
+            Book your ride now! Call us at <span className="font-bold ml-1">+91 91120 85055</span> <span className="mx-3">or</span> <span className="font-bold">+91 91300 30053</span>
+          </span>
+        </div>
+      </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Popular Cities Column */}
-          <div>
+          <div className="text-center">
             <h3 
-              className="flex items-center justify-between text-lg font-semibold mb-4 cursor-pointer hover:text-teal-600 transition-colors"
+              className="flex items-center justify-center text-lg font-semibold mb-6 cursor-pointer hover:text-blue-400 transition-colors"
               onClick={() => toggleSection('popularCities')}
             >
               <div className="flex items-center">
@@ -57,82 +68,91 @@ export default function Footer() {
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className={`transition-transform duration-300 ${openSections.popularCities ? 'rotate-180' : ''}`}
+                className={`ml-2 transition-transform duration-300 ${openSections.popularCities ? 'rotate-180' : ''}`}
               >
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </h3>
-            <div className={`grid grid-cols-2 gap-2 transition-all duration-300 ${openSections.popularCities ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <Link href="/cities/Cab-Service-Pune" className="text-gray-600 hover:text-teal-500">
+            <div className={`grid grid-cols-2 gap-3 transition-all duration-300 ${openSections.popularCities ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <Link href="/cities/Cab-Service-Pune" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Pune
               </Link>
-              <Link href="/cities/Cab-Service-Mumbai" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Mumbai" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Mumbai
               </Link>
-              <Link href="/cities/Cab-Service-Kolhapur" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Kolhapur" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Kolhapur
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Nashik
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Nagpur
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Satara" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Satara
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Sangli
+              <Link href="/cities/Cab-Service-Nashik" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Nashik
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Solapur
+              <Link href="/cities/Cab-Service-Ratnagiri" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Ratnagiri
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Baramati
+              <Link href="/cities/Cab-Service-Shirdi" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Shirdi
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Lonavala
-              </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Ahmednagar" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Ahmednagar
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Latur
+              <Link href="/cities/Cab-Service-Beed" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Beed
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Osmanabad
+              <Link href="/cities/Cab-Service-Jalna" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Jalna
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Lonavala" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Lonavala
+              </Link>
+              <Link href="/cities/Cab-Service-Akola" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Akola
+              </Link>
+              <Link href="/cities/Cab-Service-Sindhudurg" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Sindhudurg
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Wardha
+              <Link href="/cities/Cab-Service-Latur" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Latur
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Osmanabad" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Osmanabad
+              </Link>
+              <Link href="/cities/Cab-Service-Nanded" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Nanded
+              </Link>
+              <Link href="/cities/Cab-Service-Washim" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Washim
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Yavatmal
+              <Link href="/cities/Cab-Service-Wardha" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Wardha
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Bhandara
+              <Link href="/cities/Cab-Service-Palghar" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Palghar
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
-                Chandrapur
+              <Link href="/cities/Cab-Service-Chandarpur" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Chandarpur
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Gondia" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Gondia
               </Link>
-              <Link href="#" className="text-gray-600 hover:text-teal-500">
+              <Link href="/cities/Cab-Service-Gadchiroli" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Gadchiroli
+              </Link>
+              <Link href="/cities/Cab-Service-Amravati" className="text-gray-300 hover:text-blue-400 transition-colors">
                 Amravati
+              </Link>
+              <Link href="/cities/Cab-Service-Aurangabad" className="text-gray-300 hover:text-blue-400 transition-colors">
+                Aurangabad
               </Link>
             </div>
           </div>
 
           {/* Corporate Cabs Column */}
-          <div>
+          <div className="text-center">
             <h3 
-              className="flex items-center justify-between text-lg font-semibold mb-4 cursor-pointer hover:text-teal-600 transition-colors"
+              className="flex items-center justify-center text-lg font-semibold mb-6 cursor-pointer hover:text-blue-400 transition-colors"
               onClick={() => toggleSection('corporateCabs')}
             >
               <div className="flex items-center">
@@ -171,43 +191,43 @@ export default function Footer() {
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className={`transition-transform duration-300 ${openSections.corporateCabs ? 'rotate-180' : ''}`}
+                className={`ml-2 transition-transform duration-300 ${openSections.corporateCabs ? 'rotate-180' : ''}`}
               >
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </h3>
-            <div className={`space-y-2 transition-all duration-300 ${openSections.corporateCabs ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+            <div className={`space-y-3 transition-all duration-300 ${openSections.corporateCabs ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <Link href="/corporate/Corporate-Employee-Transport-Services-Delhi" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Delhi
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Corporate-Cab-Service-Pune" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Pune
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Monthly-Cab-Service-Bangalore" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Bangalore
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
-                Corporate Cabs in Hyderabad
-              </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Corporate-Cab-Service-Mumbai" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Mumbai
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Corporate-Cab-Services-Telangana" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Telangana
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Corporate-Cab-Services-Chennai" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Chennai
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="/corporate/Corporate-Cab-Services-Indore" className="block text-gray-300 hover:text-blue-400 transition-colors">
+                Corporate Cabs in Indore
+              </Link>
+              <Link href="/corporate/Corporate-Cab-Services-Surat" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Corporate Cabs in Surat
               </Link>
             </div>
           </div>
 
           {/* Airport Cabs Column */}
-          <div>
+          <div className="text-center">
             <h3 
-              className="flex items-center justify-between text-lg font-semibold mb-4 cursor-pointer hover:text-teal-600 transition-colors"
+              className="flex items-center justify-center text-lg font-semibold mb-6 cursor-pointer hover:text-blue-400 transition-colors"
               onClick={() => toggleSection('airportCabs')}
             >
               <div className="flex items-center">
@@ -237,43 +257,43 @@ export default function Footer() {
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className={`transition-transform duration-300 ${openSections.airportCabs ? 'rotate-180' : ''}`}
+                className={`ml-2 transition-transform duration-300 ${openSections.airportCabs ? 'rotate-180' : ''}`}
               >
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </h3>
-            <div className={`space-y-2 transition-all duration-300 ${openSections.airportCabs ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+            <div className={`space-y-3 transition-all duration-300 ${openSections.airportCabs ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Delhi
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Pune
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Bangalore
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Mumbai
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Hyderabad
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Telangana
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Chennai
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Airport Cabs in Surat
               </Link>
             </div>
           </div>
 
           {/* States Column */}
-          <div>
+          <div className="text-center">
             <h3 
-              className="flex items-center justify-between text-lg font-semibold mb-4 cursor-pointer hover:text-teal-600 transition-colors"
+              className="flex items-center justify-center text-lg font-semibold mb-6 cursor-pointer hover:text-blue-400 transition-colors"
               onClick={() => toggleSection('states')}
             >
               <div className="flex items-center">
@@ -306,49 +326,49 @@ export default function Footer() {
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round" 
-                className={`transition-transform duration-300 ${openSections.states ? 'rotate-180' : ''}`}
+                className={`ml-2 transition-transform duration-300 ${openSections.states ? 'rotate-180' : ''}`}
               >
                 <path d="m6 9 6 6 6-6"/>
               </svg>
             </h3>
-            <div className={`space-y-2 transition-all duration-300 ${openSections.states ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+            <div className={`space-y-3 transition-all duration-300 ${openSections.states ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Maharashtra
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Goa
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Gujarat
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Karnataka
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 UP
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 West Bengal
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Kerala
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Rajasthan
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 HP
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Tamil Nadu
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Punjab
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Chhattisgarh
               </Link>
-              <Link href="#" className="block text-gray-600 hover:text-teal-500">
+              <Link href="#" className="block text-gray-300 hover:text-blue-400 transition-colors">
                 Andhra Pradesh
               </Link>
             </div>
@@ -356,13 +376,13 @@ export default function Footer() {
         </div>
 
         {/* Social Media and Copyright */}
-        <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-          <div className="flex space-x-4 mb-4 md:mb-0">
-            <Link href="#" className="text-gray-600 hover:text-teal-500">
+        <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+          <div className="flex space-x-6 mb-6 md:mb-0">
+            <Link href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -376,11 +396,11 @@ export default function Footer() {
               </svg>
               <span className="sr-only">Instagram</span>
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-teal-500">
+            <Link href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -392,11 +412,11 @@ export default function Footer() {
               </svg>
               <span className="sr-only">Facebook</span>
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-teal-500">
+            <Link href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -408,11 +428,11 @@ export default function Footer() {
               </svg>
               <span className="sr-only">Twitter</span>
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-teal-500">
+            <Link href="#" className="text-gray-300 hover:text-blue-400 transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -427,9 +447,9 @@ export default function Footer() {
               <span className="sr-only">LinkedIn</span>
             </Link>
           </div>
-          <div className="text-gray-600 text-sm">
-            © Copyright WTL 2025. Made with <span className="text-red-500">❤</span> by xyztech.{" "}
-            <Link href="/privacy-policy" className="hover:text-teal-500">
+          <div className="text-gray-300 text-sm text-center">
+            © Copyright WTL 2025. Made with <span className="text-red-500">❤</span> by cobaztech .{" "}
+            <Link href="/privacy-policy" className="hover:text-blue-400 transition-colors">
               Privacy Policy
             </Link>
           </div>

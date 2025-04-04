@@ -3,16 +3,19 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import CabBookingForm from './CabBookingForm'
-import BusBookingForm from './BusBookingForm'
-import HotelBookingForm from './HotelBookingForm'
-import BookingForm from './BookingForm'
+import CabBookingForm from '../components/CabBookingForm'
+import BusBookingForm from '../components/BusBookingForm'
+import HotelBookingForm from '../components/HotelBookingForm'
+import FlightBookingForm from '../components/FlightBookingForm'
+import HolidayBookingForm from '../components/HolidayBookingForm'
+import HomestaysBookingForm from './HomestaysBookingForm'
 
 interface NavbarProps {
   onTabChange?: (tab: string) => void;
+  disableForm?: boolean;
 }
 
-export default function Navbar({ onTabChange }: NavbarProps) {
+export default function Navbar({ onTabChange, disableForm = false }: NavbarProps) {
   const [activeTab, setActiveTab] = useState('cabs')
   const [showForm, setShowForm] = useState(true)
   const pathname = usePathname()
@@ -26,10 +29,10 @@ export default function Navbar({ onTabChange }: NavbarProps) {
   const navItems = [
     { id: 'cabs', label: 'Cabs', icon: '🚕', component: CabBookingForm },
     { id: 'buses', label: 'Buses', icon: '🚌', component: BusBookingForm },
-    { id: 'flights', label: 'Flights', icon: '✈️', component: BookingForm },
+    { id: 'flights', label: 'Flights', icon: '✈️', component: FlightBookingForm },
     { id: 'hotels', label: 'Hotels', icon: '🏨', component: HotelBookingForm },
-    { id: 'homestays', label: 'Homestays & Villas', icon: '🏠', component: BookingForm },
-    { id: 'holiday', label: 'Holiday Packages', icon: '🌴', component: BookingForm }
+    { id: 'homestays', label: 'Homestays & Villas', icon: '🏠', component: HomestaysBookingForm },
+    { id: 'holiday', label: 'Holiday Packages', icon: '🌴', component: HolidayBookingForm }
   ]
 
   const handleTabClick = (tabId: string) => {
@@ -40,7 +43,7 @@ export default function Navbar({ onTabChange }: NavbarProps) {
   }
 
   const renderActiveComponent = () => {
-    if (!showForm) return null
+    if (!showForm || disableForm) return null;
     
     const activeItem = navItems.find(item => item.id === activeTab)
     if (activeItem && activeItem.component) {
