@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 
-export default function BookingInvoice() {
+function InvoiceContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   
@@ -531,5 +531,13 @@ export default function BookingInvoice() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function BookingInvoice() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <InvoiceContent />
+    </Suspense>
   )
 } 

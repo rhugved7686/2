@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Navbar2 from '@/components/Navbar2';
 import Footer from '@/components/footer';
 import { motion, AnimatePresence } from 'framer-motion';
+import Cookies from 'js-cookie';
+
 import { FaCar, FaCalendarAlt, FaClock, FaMapMarkerAlt, FaUser, FaRupeeSign } from 'react-icons/fa';
 
 interface TripData {
@@ -69,7 +71,9 @@ export default function MyTripPage() {
         // Replace 52 with the actual user ID from your authentication system
         // const userId = 52; // This should come from your auth context or session
         const userId = localStorage.getItem('userId');
-        const response = await fetch(`http://localhost:8080/api/get/${userId}`);
+        const id = Cookies.get('userId');
+        console.log(",sfdfds",id)
+        const response = await fetch(`http://localhost:8080/api/by-user/${id}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch trips');

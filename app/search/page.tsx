@@ -1,10 +1,18 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import Footer from "@/components/footer"
 import { useSearchParams } from 'next/navigation'
 import Navbar2 from "../../components/Navbar2"
 
 export default function SearchResults() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchResultsContent />
+    </Suspense>
+  )
+}
+
+function SearchResultsContent() {
   // Set to true to enable detailed debug console logs
   const DEBUG_MODE = true;
 

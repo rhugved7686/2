@@ -17,9 +17,23 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
+    webpackBuildWorker: false,
+  },
+  webpack: (config, { isServer }) => {
+    // Enable WebAssembly support
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+      layers: true,
+    };
+    
+    // Add fallback for buffer
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      buffer: false,
+    };
+    
+    return config;
   },
 }
 
