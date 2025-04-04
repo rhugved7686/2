@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateOTP } from '@/utils/otp';
 import { sendEmail } from '@/utils/email';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/prisma/prisma';
 
 export async function POST(request: Request) {
   try {

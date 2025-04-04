@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Cookies from 'js-cookie';
 
 // Define a more comprehensive user interface
 interface UserData {
@@ -41,7 +42,8 @@ const Navbar2 = () => {
   // Function to load all user data
   const loadUserData = () => {
     // Try to load user data from 'user' item first (most complete)
-    const userData = localStorage.getItem('user');
+    // const userData = localStorage.getItem('user');
+    const userData=Cookies.get('user')
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
@@ -87,6 +89,8 @@ const Navbar2 = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('email');
     localStorage.removeItem('address');
+
+    Cookies.remove('user')
     
     // Update state
     setUser(null);

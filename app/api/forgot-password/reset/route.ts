@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+// import { prisma } from '@/lib/prisma';
+// import { Prisma } from '@prisma/client';
+import { prisma } from '@/prisma/prisma';
 import { hash } from 'bcryptjs';
 
 export async function POST(request: Request) {

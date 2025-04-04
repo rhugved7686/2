@@ -1,0 +1,14 @@
+datasource db {
+  provider = "mysql"  // or your DB provider (mysql, sqlite, etc.)
+  url      = env("jdbc:mysql://localhost:3306/cab_booking_website?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}

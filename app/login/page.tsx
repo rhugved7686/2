@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 import Cookies from 'js-cookie';
 
@@ -19,13 +19,18 @@ interface LoginResponse {
 
 export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
   const [mobileNo, setMobileNo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Ensure searchParams are fetched after the page has been hydrated
+  useEffect(() => {
+    setSearchParams(new URLSearchParams(window.location.search));
+  }, []); // This effect will run only on the client side
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +105,7 @@ export default function LoginPage() {
         setShowSuccessMessage(true);
         
         // Get redirect URL from query parameters or use default based on role
-        const redirectTo = searchParams.get('redirect');
+        const redirectTo = searchParams?.get('redirect');
         setTimeout(() => {
           if (redirectTo) {
             router.push(redirectTo);
@@ -263,4 +268,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-} 
+}
